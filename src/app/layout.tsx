@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import "./globals.css";
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import Navbar from "../Components/Navbar";
+import AuthProvider from "../context/AuthContext";
+
 
 const inter = Inter({
   subsets: ['latin'], 
@@ -26,8 +28,10 @@ export default function RootLayout({
       <body
         className={inter.className}
       >
-        <Navbar/>
-        {children}
+        <AuthProvider> 
+          <Navbar/>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

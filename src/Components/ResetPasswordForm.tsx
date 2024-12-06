@@ -1,18 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 'use client'
 
 import Link from "next/link";
-import InputField from "../../../Components/InputField";
-import IdentityProviders from "../../../Components/IdentityProviders";
-import Welcome from "../../../Components/Welcome";
-import SignNavList from "../../../Components/SignNavList";
-import SubmitButton from "../../../Components/SubmitButton";
-import { useState } from "react";
-import { useFormik } from "formik";
-import { resetPasswordValues } from "../../../customTypes";
-import { useRouter } from "next/navigation";
-import { resetPasswordSchema } from "../../../Schemas/AuthValidationSchemas";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { resetPasswordValues } from "../customTypes";
+import { useFormik } from "formik";
+import { resetPasswordSchema } from "../Schemas/AuthValidationSchemas";
+import Welcome from "./Welcome";
+import SignNavList from "./SignNavList";
+import InputField from "./InputField";
+import SubmitButton from "./SubmitButton";
+import IdentityProviders from "./IdentityProviders";
 
 
 export default function ResetPasswordPage() {
@@ -31,7 +31,7 @@ export default function ResetPasswordPage() {
     }
     
     axios.put('https://exam.elevateegy.com/api/v1/auth/resetPassword', resetData)
-    .then(res => {
+    .then(() => {
         router.push('/login')
     })
     .catch(err => {

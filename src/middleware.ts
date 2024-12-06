@@ -3,18 +3,19 @@ import type { NextRequest } from 'next/server'
  
 
 export default function middleware(request: NextRequest) {
+
     const token = request.cookies.get('next-auth.session-token');
     const currentUrl = request.nextUrl.pathname;
+    
+    if (!token && currentUrl !== '/login') 
+        return NextResponse.redirect(new URL('/login', request.url));
+    
+    if (currentUrl === "/login" && token) 
+        return NextResponse.redirect(new URL('/', request.url));
 
-    if (currentUrl.startsWith("/login") && token) 
-      return NextResponse.rewrite(new URL('/', request.url));
-    
-    if (!token) 
-        return NextResponse.rewrite(new URL('/login', request.url));
-    
     return NextResponse.next();  
 }
  
 export const config = {
-  matcher: ['/server', '/client', '/dashboard'],
+  matcher: [ '/login', '/server', '/client', '/dashboard'],
 }

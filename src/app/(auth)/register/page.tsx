@@ -1,14 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import SignNavList from "../../../Components/SignNavList";
-import Welcome from "../../../Components/Welcome";
-import InputField from "../../../Components/InputField";
-import { useFormik } from "formik";
 import axios from "axios";
-import { RegisterValues } from "../../../customTypes";
+import Link from "next/link";
+import { useState } from "react";
+import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-
+import Welcome from "../../../Components/Welcome";
+import SignNavList from "../../../Components/SignNavList";
+import InputField from "../../../Components/InputField";
+import { RegisterValues } from "../../../customTypes";
 import IdentityProviders from "../../../Components/IdentityProviders";
 import { signUpSchema } from "../../../Schemas/AuthValidationSchemas";
 import SubmitButton from "../../../Components/SubmitButton";
@@ -18,6 +18,8 @@ import SubmitButton from "../../../Components/SubmitButton";
 export default function SignUpPage() {
 
   const router = useRouter();
+  const [hidePassword, setHidePassword] = useState<boolean>(true);
+  const [hideRePassword, setHideRePassword] = useState<boolean>(true);
 
   const handleSubmit = (values: RegisterValues) => {
     
@@ -108,15 +110,41 @@ export default function SignUpPage() {
 
                   <div className="flex flex-col sm:flex-row gap-5">
 
-                  <div className="password-input">
-                    <InputField type={"password"} id={"password"}  handleChange={formik.handleChange } placeholder="••••••••" customStyles={errorStyles}/>
+                  <div className="password-input relative">
+                    <InputField 
+                    type={ hidePassword ? "password" : "text" } 
+                    id={"password"}  
+                    handleChange={formik.handleChange } 
+                    placeholder="••••••••" 
+                    customStyles={errorStyles}/>
+
+                <span className="absolute top-3 right-3 text-gray-500 cursor-pointer">
+                  {
+                  hidePassword ? 
+                  <i className="fa-regular fa-eye" onClick={() => setHidePassword(false)}></i> :
+                  <i className="fa-regular fa-eye-slash" onClick={() => setHidePassword(true)}></i>
+                  }
+                </span>
 
                     {formik.errors.password && formik.touched.password && <div className="block px-3 mt-1 text-sm text-red-500 dark:bg-gray-800 dark:text-red-400" role="alert"> {formik.errors.password} </div>}
                   </div>
 
 
-                  <div className="repassword-input">
-                    <InputField type={"password"} id={"rePassword"}  handleChange={formik.handleChange } placeholder="••••••••" customStyles={errorStyles} />
+                  <div className="repassword-input relative">
+                    <InputField 
+                    type={ hideRePassword ? "password" : "text" } 
+                    id={"rePassword"}  
+                    handleChange={formik.handleChange } 
+                    placeholder="••••••••" 
+                    customStyles={errorStyles} />
+
+                  <span className="absolute top-3 right-3 text-gray-500 cursor-pointer">
+                    {
+                    hideRePassword ? 
+                    <i className="fa-regular fa-eye" onClick={() => setHideRePassword(false)}></i> :
+                    <i className="fa-regular fa-eye-slash" onClick={() => setHideRePassword(true)}></i>
+                    }
+                  </span>
 
                     {formik.errors.rePassword && formik.touched.rePassword && <div className="block px-3 mt-1 text-sm text-red-500 dark:bg-gray-800 dark:text-red-400" role="alert"> {formik.errors.rePassword} </div>}
                   </div>

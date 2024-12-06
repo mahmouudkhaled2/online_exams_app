@@ -20,8 +20,8 @@ import { useRouter } from "next/navigation";
 export default function LoginPage() {
 
   const router = useRouter();
-  // const [loadSpinner, setLoadSpinner] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [hidePassword, setHidePassword] = useState<boolean>(true);
 
   const handleSubmit = async (values: LoginValues) => {
 
@@ -46,7 +46,6 @@ export default function LoginPage() {
   }
 
   const formik = useFormik({
-
     initialValues: {
       email: '',
       password: '',
@@ -94,14 +93,23 @@ export default function LoginPage() {
                 }
               </div>
 
-              <div className="password-input">
+              <div className="password-input relative">
                 <InputField 
-                type={"password"} 
+                type={ hidePassword ? "password" : "text" } 
                 id={"password"} 
                 handleChange={formik.handleChange} 
                 handleBlur={formik.handleBlur} 
                 placeholder="••••••••"
                 customStyles={`${formik.errors.password && formik.touched.password || isError ? 'border-red-500' : ''}`} />
+
+
+                <span className="absolute top-1/2 translate-y-[-50%] right-3 text-gray-500 cursor-pointer">
+                  {
+                  hidePassword ? 
+                  <i className="fa-regular fa-eye" onClick={() => setHidePassword(false)}></i> :
+                  <i className="fa-regular fa-eye-slash" onClick={() => setHidePassword(true)}></i>
+                  }
+                </span>
  
                 {formik.errors.password && formik.touched.password && <div className="px-2 text-sm text-red-600   dark:text-red-400 mt-2" role="alert"> {formik.errors.password} </div>
                 }
