@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import "./globals.css";
 import '@fortawesome/fontawesome-free/css/all.min.css'
-import Navbar from "../Components/Navbar";
 import AuthProvider from "../context/AuthContext";
 
 
@@ -11,6 +11,12 @@ const inter = Inter({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   style: ['normal', 'italic'], 
   display: 'swap', 
+});
+
+const poppins = Poppins({
+  subsets: ['latin'], 
+  weight: ['400', '500', '600', '700'], 
+  style: ['normal', 'italic'],
 });
 
 export const metadata: Metadata = {
@@ -23,15 +29,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
-      <body
-        className={inter.className}
-      >
+      <body className={`${poppins.className}`}>
+
         <AuthProvider> 
-          <Navbar/>
           {children}
         </AuthProvider>
+        
       </body>
     </html>
   );

@@ -1,93 +1,47 @@
 'use client'
 
 import Image from 'next/image';
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import profileImage from './../assets/images/user-profile-white.png'
-import { useSession } from 'next-auth/react';
-import 'flowbite';
+import profileImage from './../assets/images/user-profile-black.png'
 
 export default function Navbar() {
-
-  const pathname: string = usePathname();
-  // const router = useRouter()
-  const authPathnames = ['/login', '/register', '/forget-password', '/verify-code', '/reset-password'];
-  const {data: session} = useSession();
-
-  // const handleLogOut = async () => {
-  //     await signOut({redirect: false});
-  //     router.push('/login');
-  // }
-    
-    if (!authPathnames.includes(pathname)) 
       return (
-        <nav className="px-5 fixed top-0 right-0 left-0 shadow-lg bg-slate-500 ">
+          <>
+            <nav className=" h-[60px]">
+              <div className="h-full flex items-center justify-between">
 
-          <div className='w-full md:w-[90%] mx-auto h-20 flex justify-between items-center'>
-            <div>
-            <h2 className="text-2xl text-white font-bold">Online Exams</h2>
-            </div>
+                <div className=" md:hidden text-white text-lg">
+                  <i className="fa-solid fa-bars"></i>
+                </div>
 
-            <ul className="flex justify-center items-center gap-10 h-full ">
-                <li>
-                <Link href={'/'} className="text-white">Home</Link>
-                </li>
+                {/* Search Bar */}
+                <div className="form-control w-[75%] relative">
+                  <i className="fa-solid fa-magnifying-glass absolute left-4 top-1/2 translate-y-[-50%] text-[21px] text-main"></i>
+                  <input type="text" placeholder="Search Quiz" className=" py-4 px-12 text-sm text-gray-500 rounded-2xl shadow-lg  md:w-auto focus:border-none focus:outline-none " />
+                </div>
 
-                <li>
-                <Link href={'/client'} className="text-white">Client</Link>
-                </li>
-
-                <li>
-                <Link href={'/server'} className="text-white">Server</Link>
-                </li>
-
-                <li>
-                <Link href={'/dashboard'} className="text-white">Dashboard</Link>
-                </li>
-
-                <li>
-                <Link href={'/login'} className="text-white">Login</Link>
-                </li>
-            </ul>
-
-            
-            <div>
-              <Image id="avatarButton" width={45} height={45} data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className="rounded-full cursor-pointer" src={ !session?.user?.image ? profileImage : session?.user?.image } alt="User dropdown" />
-              {/* Dropdown menu */}
-              <div id="userDropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                {session?.user?.name && session?.user?.email && 
-                  <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                    <div>{session?.user?.name}</div>
-                    <div className="font-medium text-[10px] truncate">{session?.user?.email}</div>
+                <button className="bg-blue-600 py-3 px-16 rounded-2xl text-md  text-white">Start Quiz</button>
+                
+                <div className="dropdown dropdown-end">
+                  <div tabIndex={0} role="button" className="w-[61px] h-[61px] btn btn-ghost btn-circle avatar">
+                    <div className=" rounded-full">
+                      <Image alt="Profile Avatar" src={profileImage} className='w-full' />
+                    </div>
                   </div>
-                }
-                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
-                  <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                  </li>
-                  <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                  </li>
-                  <li>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                  </li>
-                </ul>
-
-                { !session ? 
-                  <div className="py-1">
-                    <Link href="/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign in</Link>
-                  </div> 
-                  :
-                  <div className="py-1">
-                    <div  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</div>
-                  </div>
-                }
-
-              </div>
-            </div>
-          </div>
-          
-
-        </nav>
+                  <ul
+                    tabIndex={0}
+                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                    <li>
+                      <a className="justify-between">
+                        Profile
+                        <span className="badge">New</span>
+                      </a>
+                    </li>
+                    <li><a>Settings</a></li>
+                    <li><a>Logout</a></li>
+                  </ul>
+                </div>
+              </div> 
+            </nav>
+          </>
       )
 }

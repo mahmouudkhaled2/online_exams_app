@@ -5,8 +5,18 @@ import TwitterProvider from 'next-auth/providers/twitter'
 import FacebookProvider from 'next-auth/providers/facebook'
 import GitHubProvider from 'next-auth/providers/github'
 
-const options: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   
+  callbacks: {
+    async jwt({token, user}) {
+      return {...token, ...user}
+    }, 
+
+    async session({session, token}) {
+      return {...session, ...token}
+    }
+  },
+
   providers: [
     
     CredentialsProvider({
@@ -22,7 +32,6 @@ const options: NextAuthOptions = {
         const res = await fetch('https://exam.elevateegy.com/api/v1/auth/signin', fetchOptions);
             
         const user = await res.json();    
-         console.log(user);
                                                                               
         if (user?.user?.email === credentials?.email) return user
             
@@ -65,15 +74,14 @@ const options: NextAuthOptions = {
 
     pages: {
         signIn: "/login",
-        // signOut: '/auth/signout',
       },
 
     session: {
-    strategy: "jwt",
+      strategy: "jwt",
     },
 }
 
-const handler = NextAuth(options)
+const handler = NextAuth(authOptions)
 
 
 export {handler as GET , handler as POST}

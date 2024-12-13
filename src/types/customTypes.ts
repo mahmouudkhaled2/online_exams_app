@@ -1,6 +1,6 @@
 export interface InputFieldProps {
     type: string;
-     id: string;
+     id?: string;
      name?: string;
      label?: string;
      placeholder?: string;
@@ -36,3 +36,13 @@ export interface RegisterValues {
     handleClick?: () => void;
   }
 
+/*************************************/ 
+
+export interface SubjectType { _id: string; name: string; icon: string; createdAt: string; }
+
+export interface CustomButtonType {
+  title: string, 
+  additionalStyles?: string, 
+  handleClick?: () => void, 
+  disabled?: boolean
+}

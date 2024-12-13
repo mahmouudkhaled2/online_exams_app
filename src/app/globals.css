@@ -1,10 +1,11 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;    
+@tailwind components;      
+@tailwind utilities; 
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --mainground: #4461f2;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -12,6 +13,10 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+body {
+  background-color: #fbf9f9;
 }
 
 .sign-nav-list .active {
@@ -74,3 +79,28 @@
      transform: rotate(1turn);
   }
 }
+
+/****************************/
+ input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none; 
+  -moz-appearance: none;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--mainground);
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  background-color: #EDEFF3;
+}
+
+
+input[type="radio"]:checked {
+  background-color: var(--mainground);
+  outline: 2px solid  var(--mainground);
+}
+
+
+/* .progress-circle {
+  background: conic-gradient(#4CAF50 0% 60%, #FF5722 60% 100%);
+} */

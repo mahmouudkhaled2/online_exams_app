@@ -5,7 +5,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { resetPasswordValues } from "../customTypes";
+import { resetPasswordValues } from "../types/customTypes";
 import { useFormik } from "formik";
 import { resetPasswordSchema } from "../Schemas/AuthValidationSchemas";
 import Welcome from "./Welcome";
