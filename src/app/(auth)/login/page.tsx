@@ -9,8 +9,8 @@ import SubmitButton from "../../../Components/SubmitButton";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useFormik } from "formik";
-import { LoginValues } from "../../../types/customTypes";
-import { LoginSchema } from "../../../Schemas/AuthValidationSchemas";
+import { LoginValues } from "../../../lib/customs/customTypes";
+import { LoginSchema } from "../../../lib/Schemas/AuthValidationSchemas";
 import { useRouter } from "next/navigation";
 
 

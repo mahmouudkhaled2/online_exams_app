@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
 import { useEffect, useState } from "react";
@@ -17,32 +18,19 @@ export default function SubjectsList() {
 
   const postsPerPage = 3; 
 
-  const getAllSubjects = (page: number) => {
+  const getAllSubjects = async (page: number) => {
     const requestOptions = {
       headers: {
         token: session?.token,
       },
     };
-    return axios
-      .get(
-        `https://exam.elevateegy.com/api/v1/subjects?page=${page}&limit=${postsPerPage}`,
-        requestOptions
-      )
+    return await axios.get(`https://exam.elevateegy.com/api/v1/subjects?page=${page}&limit=${postsPerPage}`, requestOptions)
       .then((res) => {
-        console.log("All Subjects", res.data?.subjects);
         setAllSubjects(res.data?.subjects);
         setTotalPages(res.data?.metadata.numberOfPages || 1);
       })
       .catch((error) => console.log("Error", error));
   };
-
-  useEffect(() => {
-    if (session) {
-      getAllSubjects(currentPage);
-
-      console.log(session)
-    }
-  }, [session, currentPage]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -52,11 +40,18 @@ export default function SubjectsList() {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
+  
+  useEffect(() => {
+    if (session) {
+      getAllSubjects(currentPage);
+    }
+  }, [session, currentPage]);
+
   return (
     <>
-      <section className="mb-10">
-        <h2 className="text-2xl text-main">Quizes</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 bg-white py-8 px-4 rounded-xl">
+      <section className="mb-10 bg-white py-8 px-4 rounded-xl">
+        <h2 className="text-2xl font-medium text-main mb-8">Quizes</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {allSubjects?.map((subject, index) => (
             <Link href={`/exams/${subject?._id}`} key={index}>
               <Subject subject={subject} />

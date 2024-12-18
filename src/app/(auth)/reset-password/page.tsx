@@ -9,9 +9,9 @@ import SignNavList from "../../../Components/SignNavList";
 import SubmitButton from "../../../Components/SubmitButton";
 import { useState } from "react";
 import { useFormik } from "formik";
-import { resetPasswordValues } from "../../../types/customTypes";
+import { resetPasswordValues } from "../../../lib/customs/customTypes";
 import { useRouter } from "next/navigation";
-import { resetPasswordSchema } from "../../../Schemas/AuthValidationSchemas";
+import { resetPasswordSchema } from "../../../lib/Schemas/AuthValidationSchemas";
 import axios from "axios";
 
 

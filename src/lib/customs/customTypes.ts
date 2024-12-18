@@ -2,6 +2,7 @@ export interface InputFieldProps {
     type: string;
      id?: string;
      name?: string;
+     value?: string;
      label?: string;
      placeholder?: string;
      customStyles?: string

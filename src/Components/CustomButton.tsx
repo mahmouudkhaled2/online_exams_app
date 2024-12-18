@@ -1,6 +1,6 @@
 'use client'
 
-import { CustomButtonType } from "../types/customTypes"
+import { CustomButtonType } from "../lib/customs/customTypes"
 
 export default function CustomButton({title, additionalStyles, handleClick, disabled} : CustomButtonType) {
   return (

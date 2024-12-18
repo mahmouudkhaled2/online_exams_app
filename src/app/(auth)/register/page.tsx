@@ -8,9 +8,9 @@ import { useRouter } from "next/navigation";
 import Welcome from "../../../Components/Welcome";
 import SignNavList from "../../../Components/SignNavList";
 import InputField from "../../../Components/InputField";
-import { RegisterValues } from "../../../types/customTypes";
+import { RegisterValues } from "../../../lib/customs/customTypes";
 import IdentityProviders from "../../../Components/IdentityProviders";
-import { signUpSchema } from "../../../Schemas/AuthValidationSchemas";
+import { signUpSchema } from "../../../lib/Schemas/AuthValidationSchemas";
 import SubmitButton from "../../../Components/SubmitButton";
 
 

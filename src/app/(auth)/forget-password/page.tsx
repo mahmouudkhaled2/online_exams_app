@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
-import { EmailSchema } from "../../../Schemas/AuthValidationSchemas";
+import { EmailSchema } from "../../../lib/Schemas/AuthValidationSchemas";
 import Welcome from "../../../Components/Welcome";
 import SignNavList from "../../../Components/SignNavList";
 import InputField from "../../../Components/InputField";

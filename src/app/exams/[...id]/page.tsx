@@ -31,7 +31,7 @@ export default async function page () {
 
   const data = await getExamsOnSubjec()
   
-  console.log("Data Is Here", data);
+  // console.log("Data Is Here", data);
   
   
   return (

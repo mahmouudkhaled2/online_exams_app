@@ -1,38 +1,23 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import axios from 'axios';
-import { useEffect, useState } from 'react'
+
+import { useState } from 'react'
 import { useSession } from 'next-auth/react';
 import QuizInstructions from './QuizInstructions'
 import QuestionContainer from './QuestionContainer';
+import { useAppDispatch} from '../lib/customs/hooks';
+import { getAllQuestions } from '../lib/Redux/slices/QuestionsSlice';
 
-export default function ExamModal({examId}: {examId: string}) {
+export default function QuizModal({examId}: {examId: string}) {
 
     const {data: session} = useSession();
-    const [allQuestions, setAllQuestions] = useState([]);
     const [showInstructions, setShowInstructions] = useState(true);
+    
+    const dispatch = useAppDispatch()
 
     const handleStart = () => {
         setShowInstructions(false)
+        dispatch(getAllQuestions({examId, token: session?.token}))
     }
-   
-    const getQuestionsOnExam = async () => {
-
-        const requestOptions = {
-            headers: {
-                token: session?.token
-            }
-        }
-
-        return await axios.get(`https://exam.elevateegy.com/api/v1/questions?exam=${examId}`, requestOptions)
-        .then(res => setAllQuestions(res.data?.questions))
-        .catch(err =>{throw new Error(err)} )        
-    }
-
-    useEffect(() => {
-        getQuestionsOnExam()
-    }, [session]) 
-
     
     return ( 
     <>
@@ -49,7 +34,7 @@ export default function ExamModal({examId}: {examId: string}) {
                 ? 
                 <QuizInstructions handleStart={handleStart}/> 
                 : 
-                <QuestionContainer allQuestions={allQuestions}/>}
+                <QuestionContainer/>}
             </div>
 
         </div>

@@ -1,8 +1,16 @@
 import React from 'react'
 import CustomButton from './CustomButton'
-import { AnswersCalculatorProps } from '../types/customTypes'
+import { useAppDispatch } from '../lib/customs/hooks';
+import { prevQuestion } from '../lib/Redux/slices/QuestionsSlice';
 
-export default function AnswersCalculator({activeQuestion, setActiveQuestion, setIsDone} : AnswersCalculatorProps) {
+
+export default function AnswersCalculator({ setIsDone } : {
+  setIsDone: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+
+
+  const dispatch = useAppDispatch();
+
   return (
     <div>
       <h3 className="mb-7 text-lg font-medium ">Your Score</h3>
@@ -40,7 +48,7 @@ export default function AnswersCalculator({activeQuestion, setActiveQuestion, se
     
                 <CustomButton 
                     handleClick={() => {
-                      setActiveQuestion(--activeQuestion)
+                      dispatch(prevQuestion())
                       setIsDone(false)  
                     }}
                     // disabled={}

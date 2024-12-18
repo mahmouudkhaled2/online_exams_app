@@ -1,6 +1,6 @@
 'use client'
 
-import { SubmitButtonProps } from "../types/customTypes"
+import { SubmitButtonProps } from "../lib/customs/customTypes"
 
 export default function SubmitButton({title, isLoading}: SubmitButtonProps) {
   return (
