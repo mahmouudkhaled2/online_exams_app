@@ -24,10 +24,10 @@ export default function Quiz({exam}) {
 
             <button 
             type="button" 
-            disabled={exam?.active === false}
+            disabled={!exam?.active}
             onClick={() => setOpenModal(true)}
-            className={`${exam?.active ? 'bg-opacity-60' : ''} bg-main py-1 px-6 text-white text-[12px] rounded-[10px] cursor-pointer`}>
-                Start
+            className={`${exam?.active ? '' : 'bg-opacity-60'} bg-main py-1 px-6 text-white text-[12px] rounded-[10px] cursor-pointer`}>
+                Start 
             </button>
             { openModal && <QuizModal examId={exam?._id}/>}
             

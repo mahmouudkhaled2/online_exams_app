@@ -4,7 +4,6 @@ import UserInfoCard from '../UserInfoCard'
 import SubjectsList from '../SubjectsList'
 
 export default function HomePage() {
-
   return (
     <>
       <section className=" flex justify-between">

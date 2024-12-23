@@ -4,7 +4,6 @@ import "./globals.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import AuthProvider from "../lib/context/AuthContext";
 import ReduxProvider from "../lib/Redux/ReduxProvider/ReduxProvider";
-import LoginPage from "./(auth)/login/page";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -23,12 +22,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={poppins.className}>
-
+    
         <ReduxProvider>
           <AuthProvider>
             {children}
             </AuthProvider>
         </ReduxProvider>
+        
       </body>
     </html>
   );

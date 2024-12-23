@@ -85,22 +85,30 @@ body {
   appearance: none;
   -webkit-appearance: none; 
   -moz-appearance: none;
+  border: 1px solid var(--mainground);
   width: 10px;
   height: 10px;
-  border: 1px solid var(--mainground);
   border-radius: 50%;
   outline: none;
   cursor: pointer;
   background-color: #EDEFF3;
 }
 
-
 input[type="radio"]:checked {
   background-color: var(--mainground);
   outline: 2px solid  var(--mainground);
 }
 
+input[type="radio"].incorrect {
+  background-color: #CC1010 !important;
+  border: 1px solid #CC1010; 
+  outline: 2px solid #CC1010 !important;
+}
 
-/* .progress-circle {
-  background: conic-gradient(#4CAF50 0% 60%, #FF5722 60% 100%);
+/* input[type="radio"].correct {
+  background-color: #11CE19!important;
+  border: 1px solid #CC1010; 
+  outline: 2px solid #11CE19!important;
 } */
+
+

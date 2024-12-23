@@ -31,6 +31,7 @@ const questionsSlice = createSlice({
         prevQuestion: (state) => {
             state.activeQuestion -= 1
         },
+
     },
 
     extraReducers: function (builder) {
@@ -44,7 +45,7 @@ const questionsSlice = createSlice({
             // console.log("Payload From Rejected ==> ", action.payload)
         });
 
-        builder.addCase(getAllQuestions.pending, function (state, action) {
+        builder.addCase(getAllQuestions.pending,  (state, action) =>  {
             // console.log("Payload From Pending ==> ", action)
         });
     }

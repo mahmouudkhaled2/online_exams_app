@@ -1,22 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Question } from "../../customs/customTypes";
+import { setAnswersAfterCheck } from "../../Utilitize";
 
-type QuizState = {
-  quizResults: {
-    userAnswers: string[] | [];
-    correct: number;
-    incorrect: number;
-  };
-
-  activeQuestion: number;
-};
+interface QuizState {
+  correctAnswers: Question[], 
+  IncorrectAnswers: Question[], 
+}
 
 const initialState: QuizState = {
-  quizResults: { userAnswers: ["d", "dd", "dsd"], correct: 0, incorrect: 0 },
-
-  activeQuestion: 0,
+  correctAnswers: [],
+  IncorrectAnswers: [],
 };
-
-
 
 
 const quizSlice = createSlice({
@@ -24,45 +18,33 @@ const quizSlice = createSlice({
   initialState,
 
   reducers: {
-    // setSelectedAnswer: (state, {payload} : {payload: string}) => {
-    //   console.log(payload);
+
+    setCorrectAnswer: (state, action) => {
+      setAnswersAfterCheck(state.correctAnswers , action.payload);
+    },
+
+
+    setInCorrectAnswer: (state, action) => {
+      setAnswersAfterCheck(state.IncorrectAnswers , action.payload);
+    },
+
+    removeLastAnswer : (state, action) => {
+
       
-    //   // state.quizResults.userAnswers.push(payload);
-    //   if (!state.quizResults.userAnswers.includes(payload)) {
-    //     console.log("La Mish Mawgood");
-    //     state.quizResults.userAnswers.push(payload)
-        
-    //   }else {
-    //     console.log("Aywa Mawgood")
-    //     console.log("MY Results", state.quizResults.userAnswers);
-    //   }
+      const findQuestionIndexAtCorrect = state.correctAnswers.findIndex((question) => question._id === action.payload);
 
-      
-    // } ,
+      console.log("The QS ID: ", findQuestionIndexAtCorrect);
 
-    correctAnswers: (state) => {
-      state.quizResults.correct += 1;
-    },
+      if (findQuestionIndexAtCorrect !== -1) {
+        state.correctAnswers.pop()
+      } 
+      else {
+        state.IncorrectAnswers.pop()
+      }
+    }
 
-    InCorrectAnswers: (state) => {
-      state.quizResults.incorrect += 1;
-    },
-
-    incrementActiveQuestion: (state) => {
-      state.activeQuestion += 1;
-    },
-
-    decrementActiveQuestion: (state) => {
-      state.activeQuestion -= 1;
-    },
   },
 });
 
-export const {
-  correctAnswers,
-  InCorrectAnswers,
-  incrementActiveQuestion,
-  decrementActiveQuestion,
-  // setSelectedAnswer,
-} = quizSlice.actions;
+export const { setCorrectAnswer, setInCorrectAnswer, removeLastAnswer } = quizSlice.actions;
 export default quizSlice.reducer;

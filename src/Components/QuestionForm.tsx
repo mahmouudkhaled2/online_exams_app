@@ -1,22 +1,80 @@
 "use client";
 
-import React from "react";
 import InputField from "./InputField";
 import { useAppDispatch, useAppSelector } from "../lib/customs/hooks";
 import { RootState } from "./../lib/Redux/store/store";
-// import { setSelectedAnswer } from "../lib/Redux/slices/QuizSlice";
+import CustomButton from "./CustomButton";
+import { nextQuestion, prevQuestion } from "../lib/Redux/slices/QuestionsSlice";
+import { removeLastAnswer, setCorrectAnswer, setInCorrectAnswer } from "../lib/Redux/slices/QuizSlice";
+import { useState } from "react";
+import { Question } from "../lib/customs/customTypes";
 
-export default function QuestionForm({activeQuestion}: {activeQuestion : number}) {
+export default function QuestionForm({ setIsDone }) {
 
-  const {allQuestions} = useAppSelector((state: RootState) => state.questions);
+  const { allQuestions, activeQuestion } = useAppSelector( (state: RootState) => state.questions );
+  const { correctAnswers, IncorrectAnswers } = useAppSelector( (state: RootState) => state.quiz );
+  const [ isAnswered, setIsAnswered] = useState<boolean>(false);
+  const [ checkedAnswer, setCheckedAnswer] = useState<string>('');
 
-  // console.log("All Question From QuizForm: ", allQuestions);
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   dispatch(setSelectedAnswer(e.target.value));
-  // };
+  const storeAnswer = ( answers: Question ) => {
+
+    if (checkedAnswer === answers?.correct) {
+      
+      const correctAnswer = {
+        ...answers,
+        answer: checkedAnswer,
+      };
+
+      dispatch(setCorrectAnswer(correctAnswer));
+
+    } else {
+
+      const IncorrectAnswer = {
+        ...answers,
+        answer: checkedAnswer,
+      };
+
+      dispatch(setInCorrectAnswer(IncorrectAnswer));
+    }
+
+      console.log("E.Target.Value Is: ", checkedAnswer);
+      setCheckedAnswer('')
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, answerKey: string) => {
+
+    if (e.target.checked) {
+      setCheckedAnswer(answerKey)
+    }
+
+    setIsAnswered(true)
+
+  }
+
+
+  const handleNextButton = (newAnswer : Question) => {
+
+    storeAnswer(newAnswer)
+
+
+    if (activeQuestion < allQuestions.length - 1) {
+      dispatch(nextQuestion());
+    } else {
+      setIsDone(true);
+    }
+    setIsAnswered(false);
+
+      console.log("Correct Answers are ", correctAnswers);
+      console.log("Inorrect Answers are ", IncorrectAnswers);
+  }
+
+  const handlBackButton = (questionId : string) => {
+    dispatch(prevQuestion());
+    dispatch(removeLastAnswer(questionId))
+}
 
   return (
     <>
@@ -27,6 +85,7 @@ export default function QuestionForm({activeQuestion}: {activeQuestion : number}
           </span>
           <span className="text-md">14:59</span>
         </div>
+
         <div className="hidden sm:flex gap-3">
           {allQuestions?.map((question, index) => (
             <div key={index}>
@@ -53,18 +112,18 @@ export default function QuestionForm({activeQuestion}: {activeQuestion : number}
                   return (
                     <li
                       key={index}
-                      className="flex gap-4 items-center px-3 bg-[#EDEFF3] border rounded-lg"
+                      className={`${checkedAnswer === answer?.key ? 'bg-[#CCD7EB]' : 'bg-[#EDEFF3]'} flex gap-4 items-center px-3  border rounded-lg`}
                     >
                       <InputField
                         id={answer?.key}
                         type={"radio"}
                         name={"answer"}
                         value={answer?.key}
-                        // handleChange={handleChange}
+                        handleChange={(e) => handleChange(e, answer?.key)}
                       />
                       <label
                         htmlFor={answer?.key}
-                        className="text-md w-full py-3"
+                        className={`text-md w-full py-3`}
                       >
                         {answer?.answer}
                       </label>
@@ -72,9 +131,38 @@ export default function QuestionForm({activeQuestion}: {activeQuestion : number}
                   );
                 })}
               </ul>
+
+              <div className="btns flex gap-5 mt-7">
+                <CustomButton
+                  handleClick={
+                    () => handlBackButton( allQuestions[index - 1]?._id )}
+
+                  disabled={activeQuestion === 0}
+                  additionalStyles={`${
+                    activeQuestion === 0 ? "opacity-60 cursor-not-allowed" : ""
+                  } border border-main text-main hover:text-[#314fe3]`}
+                  title={"Back"}
+                />
+
+                <CustomButton
+                  handleClick={
+                    () => handleNextButton({
+                    question: question?.question,
+                    _id: question?._id,
+                    answers: question?.answers,
+                    correct: question?.correct,
+                  })}
+
+                  disabled={ !isAnswered }
+                  additionalStyles={`${isAnswered ? 'hover:bg-[#314fe3]' : 'bg-opacity-50 cursor-not-allowed'} bg-main  text-white`}
+                  title={activeQuestion === allQuestions.length - 1 && allQuestions.length !== 0 ? "Submit" : "Next"}
+                />
+              </div>
             </div>
           );
       })}
+
+
     </>
   );
 }
